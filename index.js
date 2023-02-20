@@ -5,12 +5,13 @@ app.use(express.json())
 const {usermodel}=require("./model/usermodl")
  const {postmodel}=require("./model/instamodel")
 const {userRoutes}=require("./Routes/userrouter")
+const {postRoutes}=require("./Routes/instarouter")
 
 app.get("/home",(req,res)=>{
     res.send("home page welcomes you")
 })
 app.use("/users",userRoutes)
-
+app.use("/posts",postRoutes)
 
 
 app.listen(process.env.port,async()=>{

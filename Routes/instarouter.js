@@ -13,5 +13,25 @@ postRoutes.post("/posts",async(req,res)=>{
         res.send("error")
     }
 })
+postRoutes.delete("/delete/:id",async(req,res)=>{
+    try{
+        await postmodel.findByIdAndDelete({_id:req.params.id})
+        res.send("delete done")
+    }catch(error){
+        res.send(error)
+    }
+})
+postRoutes.patch("/update/:id",async(req,res)=>{
+    try{
+        await postmodel.findByIdAndDelete({_id:req.params.id},req.body)
+        res.send("update done")
+    }catch(error){
+        res.send(error)
+    }
+})
 
+
+module.exports={
+    postRoutes
+}
 
