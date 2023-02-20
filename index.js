@@ -1,26 +1,27 @@
-const express= require("express")
-const { connection } = require("./config/db")
-const app=express()
+
+const express = require("express")
+const {UserRoutes} = require("./Routes/userRoute")
+const {connection}=  require("./config/db")
+const {notesRouter} = require("./Routes/notes")
+const {validator} = require("./middleware/middleware")
+const cors = require("cors")
+
+const app = express()
 app.use(express.json())
-const {usermodel}=require("./model/usermodl")
- const {postmodel}=require("./model/instamodel")
-const {userRoutes}=require("./Routes/userrouter")
-const {postRoutes}=require("./Routes/instarouter")
-
-app.get("/home",(req,res)=>{
-    res.send("home page welcomes you")
+app.use(cors())
+app.get("/",(req,res)=>{
+    res.send("welcome to home page")
 })
-app.use("/users",userRoutes)
-app.use("/posts",postRoutes)
 
-
-app.listen(process.env.port,async()=>{
-try{
-    await connection
-    console.log("conected to atlas")
-}catch(error){
-    console.log("can not connect")
-}
-console.log(`server is awake at ${process.env.port}` )
-
+app.use("/users",UserRoutes)
+app.use(validator)
+app.use("/posts",notesRouter)
+app.listen(process.env.port, async () => {
+    try {
+        await connection
+        console.log("connected to atlas")
+    } catch (error) {
+        console.log(error)
+    }
+    console.log(`server is awake at  ${process.env.port}`)
 })
